@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #222;
+      font-family: 'Pacifico', cursive;
+      border-radius: 10px;
+    }
+
+    .container {
+      text-align: center;
+      border-radius: 10px;
+    }
+
+    h1 {
+      color: white;
+    }
+
+    #input {
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-bottom: 2px solid #ccc;
+      width: 300px;
+      margin-bottom: 10px;
+      background-color: transparent;
+      color: white;
+      outline: none;
+      border-radius: 4px;
+    }
+
+    .input-container {
+      position: relative;
+    }
+
+    .input-container::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: #333;
+      transform: scaleX(0);
+      transition: transform 0.3s ease-in-out;
+      border-radius: 4px;
+    }
+
+    .input-container.active::after {
+      transform: scaleX(1);
+    }
+
+    #output-container {
+      position: relative;
+    }
+
+    #output {
+      display: none;
+      padding: 10px;
+      border: 1px solid #ccc;
+      width: 300px;
+      word-break: break-all;
+      margin-bottom: 10px;
+      background-color: #333;
+      color: white;
+      box-shadow: 0 0 5px white;
+      border-radius: 4px;
+    }
+
+    #copy-button {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      padding: 6px 10px;
+      font-size: 12px;
+      border: none;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+      display: none;
+      box-shadow: 0 0 5px white;
+      border-radius: 4px;
+    }
+
+    #copy-button:hover {
+      background-color: #333;
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      display: none;
+      z-index: 999;
+      box-shadow: 0 0 10px white;
+      animation: fade-in 0.3s ease-in-out;
+    }
+
+    @keyframes fade-in {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      #input {
+        width: 100%;
+      }
+
+      #output {
+        width: 100%;
+      }
+
+      #copy-button {
+        right: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 style="color: white;">🤸 Beshifier 🤸</h1>
+    <div class="input-container">
+      <input type="text" id="input" placeholder="Type a word or sentence">
+    </div>
+    <div id="output-container">
+      <textarea id="output" readonly></textarea>
+      <button id="copy-button">Copy</button>
+    </div>
+    <div id="toast"></div>
+  </div>
+
+  <script>
+    const input = document.getElementById('input');
+    const outputContainer = document.getElementById('output-container');
+    const output = document.getElementById('output');
+    const copyButton = document.getElementById('copy-button');
+    const toast = document.getElementById('toast');
+
+    function addEmojiToWords(text) {
+      const words = text.trim().split(' ');
+      const beshifiedWords = words.map(word => ' 🤸 ' + word).join('');
+      return beshifiedWords;
+    }
+
+    function copyTextToClipboard() {
+      output.select();
+      document.execCommand('copy');
+      showToast('🤸 Na 🤸 Copy 🤸 Mona 🤸 Beshy 🤸 Ko 🤸');
+
+      copyButton.classList.add('pulse');
+      setTimeout(function () {
+        copyButton.classList.remove('pulse');
+      }, 500);
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.style.display = 'block';
+      setTimeout(function () {
+        toast.style.display = 'none';
+      }, 2000);
+    }
+
+    input.addEventListener('input', function () {
+      const text = input.value;
+      if (text) {
+        output.value = addEmojiToWords(text);
+        output.style.display = 'block';
+        copyButton.style.display = 'block';
+      } else {
+        output.style.display = 'none';
+        copyButton.style.display = 'none';
+      }
+    });
+
+    copyButton.addEventListener('click', copyTextToClipboard);
+  </script>
+</body>
+  </html>
+  
